@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHORIB SMART - Media Pembelajaran Bacaan Ghorib Al-Qur'an</title>
+    <style>
+        :root {
+            /* Warna Dominan (Diubah ke Tema Biru Tua Langit Malam) */
+            --emerald-green: #1e3a8a; /* Biru langit malam (Primary) */
+            --emerald-dark: #0f172a;  /* Biru sangat gelap (Dark) */
+            --emerald-light: #3b82f6; /* Biru terang (Accent) */
+            --gold: #d4af37;
+            --gold-light: #fbe396;
+            --white: #ffffff;
+            --light-gray: #f3f4f6;
+            --dark-gray: #4b5563;
+            --text-dark: #1f2937;
+            --bg-body: #fafafa;
+            
+            /* Tipografi Responsive */
+            --font-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+            --font-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+            --font-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+            --font-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+            --font-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+            --font-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+            --font-3xl: clamp(1.875rem, 1.5rem + 1.875vw, 2.5rem);
+            --font-4xl: clamp(2.25rem, 1.8rem + 2.25vw, 3rem);
+
+            /* Shadows & Transisi */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition-smooth: all 0.3s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: var(--font-3xl);
+            color: var(--emerald-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: var(--font-base);
+            color: var(--dark-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-inline: auto;
+        }
+
+        /* Menyembunyikan semua halaman secara default */
+        .page-section {
+            display: none;
+            padding: 7rem 1.5rem 5rem 1.5rem; /* Padding top dikosongkan untuk header */
+            min-height: calc(100vh - 200px); /* Memastikan tinggi minimal selayar */
+            animation: fadeInPage 0.4s ease-out forwards;
+        }
+
+        /* Halaman yang aktif akan ditampilkan */
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: var(--font-2xl);
+            font-weight: 800;
+            color: var(--emerald-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo span { color: var(--gold); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: var(--font-base);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--emerald-green);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover { background-color: var(--emerald-dark); transform: translateY(-2px); }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-gold:hover { background-color: #c5a028; transform: translateY(-2px); }
+
+        .btn-back {
+            display: none; /* Disembunyikan di halaman Home */
+            padding: 0.5rem 1rem;
+            font-size: var(--font-sm);
+        }
+
+        .hero-home {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, rgba(243,244,246,0.9) 0%, rgba(255,255,255,0.9) 100%), 
+                        repeating-radial-gradient(circle at 0 0, transparent 0, var(--emerald-light) 40px);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-home h1 {
+            font-size: var(--font-4xl);
+            color: var(--emerald-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero-home p {
+            font-size: var(--font-lg);
+            color: var(--dark-gray);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .menu-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .menu-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            border: 2px solid transparent;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--emerald-light);
+        }
+
+        .menu-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--bg-body);
+            color: var(--emerald-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .menu-card:hover .menu-icon {
+            background-color: var(--emerald-green);
+            color: var(--white);
+        }
+
+        .menu-icon svg { width: 35px; height: 35px; fill: currentColor; }
+
+        .menu-card h3 {
+            font-size: var(--font-lg);
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        /* Grid umum untuk konten dalam halaman */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .content-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
+        }
+
+        /* Materi */
+        .materi-card h3 {
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--emerald-dark);
+        }
+        
+        /* Media */
+        audio, video { width: 100%; border-radius: 8px; outline: none; margin-top: 1rem; }
+        video { background-color: #000; box-shadow: var(--shadow-md); }
+
+        /* Quiz */
+        .quiz-container { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-md); max-width: 800px; margin: 0 auto; }
+        .quiz-question { display: none; margin-bottom: 2rem; }
+        .quiz-question.active { display: block; animation: fadeInPage 0.5s; }
+        .quiz-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+        .quiz-option { display: flex; align-items: center; padding: 1rem; border: 1px solid var(--light-gray); border-radius: 8px; cursor: pointer; transition: var(--transition-smooth); }
+        .quiz-option:hover { background-color: var(--light-gray); }
+        .quiz-option input[type="radio"] { margin-right: 1rem; transform: scale(1.2); accent-color: var(--emerald-green); }
+        .quiz-navigation { display: flex; justify-content: space-between; margin-top: 2rem; }
+        
+        /* Progress */
+        .progress-wrapper { max-width: 800px; margin: 0 auto 2rem auto; }
+        .progress-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600; }
+        .progress-bar-bg { width: 100%; height: 20px; background-color: #e5e7eb; border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-bar-fill { height: 100%; background-color: var(--emerald-green); width: 0%; border-radius: 10px; transition: width 1.5s ease-out; }
+        
+        /* FAQ Accordion */
+        .accordion { max-width: 800px; margin: 0 auto; }
+        .accordion-item { background-color: var(--white); border: 1px solid var(--light-gray); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .accordion-header { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; font-weight: 600; font-size: var(--font-lg); transition: var(--transition-smooth); }
+        .accordion-header:hover { background-color: var(--light-gray); }
+        .accordion-icon { transition: transform 0.3s ease; }
+        .accordion-item.active .accordion-icon { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; padding: 0 1.5rem; color: var(--dark-gray); }
+        .accordion-item.active .accordion-content { padding: 0 1.5rem 1.5rem 1.5rem; }
+
+        /* Form Kontak */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: var(--font-base); transition: var(--transition-smooth); }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--emerald-green); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2); }
+
+        /* Footer */
+        footer { background-color: var(--text-dark); color: var(--white); padding: 3rem 1.5rem 1.5rem; text-align: center; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="navbar">
+            <div class="logo" onclick="navigateTo('home')">GHORIB<span>SMART</span></div>
+            <!-- Tombol Kembali ke Menu Utama -->
+            <button id="btn-back" class="btn btn-primary btn-back" onclick="navigateTo('home')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Beranda
+            </button>
+        </div>
+    </header>
+
+    <section id="home" class="page-section active">
+        <div class="container">
+            <div class="hero-home">
+                <h1>Selamat Datang di Ghorib Smart</h1>
+                <p>Platform interaktif untuk memahami bacaan-bacaan khusus dalam Al-Qur'an.</p>
+                <p style="margin-top: 1rem; color: var(--emerald-green); font-weight: 600;">Silakan pilih menu pembelajaran di bawah ini:</p>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-card" onclick="navigateTo('tentang')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>
+                    <h3>Tentang</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('materi')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15ZM6.5 19a1.5 1.5 0 0 0-1.5-1.5H20v3H6.5A1.5 1.5 0 0 1 5 19Z"/></svg></div>
+                    <h3>Materi</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('video')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
+                    <h3>Video Praktik</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('audio')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
+                    <h3>Audio Murottal</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('latihan')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></div>
+                    <h3>Latihan Quiz</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('progress')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div>
+                    <h3>Progress</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('faq')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg></div>
+                    <h3>FAQ</h3>
+                </div>
+                <div class="menu-card" onclick="navigateTo('kontak')">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                    <h3>Kontak</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tentang" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Tentang Ghorib Smart</h2>
+            <p class="section-subtitle">Mengenal platform pembelajaran bacaan khusus Al-Qur'an.</p>
+            
+            <div class="card" style="text-align: center; margin-bottom: 2rem;">
+                <p style="font-size: var(--font-lg); color: var(--dark-gray);">
+                    Ghorib Smart adalah media pembelajaran inovatif yang dirancang khusus untuk memfasilitasi umat Islam dalam mempelajari bacaan-bacaan asing (Ghorib) dalam Al-Qur'an. 
+                    Kami memadukan teknologi modern dengan ilmu tajwid murni.
+                </p>
+            </div>
+
+            <div class="content-grid">
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--emerald-dark); margin-bottom: 1rem;">Materi Terstruktur</h3>
+                    <p>Penjelasan lengkap mulai dari definisi, hukum bacaan, hingga contoh ayat.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--emerald-dark); margin-bottom: 1rem;">Audio & Video Praktik</h3>
+                    <p>Dilengkapi dengan contoh suara pelafalan yang benar oleh Qori ahli.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: var(--emerald-dark); margin-bottom: 1rem;">Latihan Interaktif</h3>
+                    <p>Uji pemahaman Anda melalui kuis yang langsung memberikan nilai.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="materi" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Materi Pembelajaran</h2>
+            <p class="section-subtitle">Daftar bacaan Ghorib menurut Riwayat Hafsh dari Imam Ashim.</p>
+            
+            <div class="content-grid">
+                <div class="card materi-card">
+                    <h3>1. Imalah</h3>
+                    <p>Membaca dengan memiringkan bunyi Fathah pada arah Kasrah. (Surat Hud ayat 41)</p>
+                </div>
+                <div class="card materi-card">
+                    <h3>2. Isymam</h3>
+                    <p>Mencampurkan dhommah pada sukun dengan memoncongkan bibir. (Surat Yusuf ayat 11)</p>
+                </div>
+                <div class="card materi-card">
+                    <h3>3. Saktah</h3>
+                    <p>Berhenti sejenak tanpa mengambil nafas baru (sekitar 2 harakat).</p>
+                </div>
+                <div class="card materi-card">
+                    <h3>4. Tashil</h3>
+                    <p>Meringankan bacaan hamzah kedua antara hamzah dan alif. (Surat Fussilat ayat 44)</p>
+                </div>
+                <div class="card materi-card">
+                    <h3>5. Naql</h3>
+                    <p>Memindahkan harakat hamzah ke huruf mati sebelumnya. (Surat Al-Hujurat ayat 11)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="video" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Video Panduan Praktik</h2>
+            <p class="section-subtitle">Perhatikan gerak bibir dengan saksama.</p>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem; color: var(--emerald-dark);">Praktik Isymam (Surat Yusuf: 11)</h3>
+                    <video controls poster="https://placehold.co/600x350/1e3a8a/ffffff?text=Video+Isymam">
+                        <source src="#" type="video/mp4">
+                    </video>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem; color: var(--emerald-dark);">Praktik Imalah (Surat Hud: 41)</h3>
+                    <video controls poster="https://placehold.co/600x350/1e3a8a/ffffff?text=Video+Imalah">
+                        <source src="#" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="audio" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Audio Murottal Ghorib</h2>
+            <p class="section-subtitle">Dengarkan contoh pelafalan audio yang jernih.</p>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Contoh Saktah</h3>
+                    <audio controls><source src="#" type="audio/mpeg"></audio>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Contoh Tashil</h3>
+                    <audio controls><source src="#" type="audio/mpeg"></audio>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;">Contoh Naql</h3>
+                    <audio controls><source src="#" type="audio/mpeg"></audio>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="latihan" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Latihan Pemahaman</h2>
+            <p class="section-subtitle">Uji kemampuan Anda dalam mengidentifikasi bacaan Ghorib.</p>
+            
+            <div class="quiz-container">
+                <div class="quiz-question active" id="q1">
+                    <h4>Pertanyaan 1/3:</h4>
+                    <p>Membaca dengan memiringkan bunyi fathah pada arah kasrah disebut...</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option"><input type="radio" name="answer1" value="a"> A. Isymam</label>
+                        <label class="quiz-option"><input type="radio" name="answer1" value="b"> B. Imalah</label>
+                        <label class="quiz-option"><input type="radio" name="answer1" value="c"> C. Tashil</label>
+                    </div>
+                    <div class="quiz-navigation">
+                        <div></div>
+                        <button class="btn btn-primary" onclick="nextQuestion(1)">Selanjutnya</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" id="q2">
+                    <h4>Pertanyaan 2/3:</h4>
+                    <p>Hukum bacaan Isymam pada riwayat Hafsh dari Ashim hanya terdapat pada surat...</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option"><input type="radio" name="answer2" value="a"> A. Surat Yusuf ayat 11</label>
+                        <label class="quiz-option"><input type="radio" name="answer2" value="b"> B. Surat Hud ayat 41</label>
+                        <label class="quiz-option"><input type="radio" name="answer2" value="c"> C. Surat Al-Kahfi ayat 1</label>
+                    </div>
+                    <div class="quiz-navigation">
+                        <button class="btn btn-gold" onclick="prevQuestion(2)">Kembali</button>
+                        <button class="btn btn-primary" onclick="nextQuestion(2)">Selanjutnya</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question" id="q3">
+                    <h4>Pertanyaan 3/3:</h4>
+                    <p>Berhenti sejenak tanpa mengambil nafas baru disebut...</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option"><input type="radio" name="answer3" value="a"> A. Waqaf</label>
+                        <label class="quiz-option"><input type="radio" name="answer3" value="b"> B. Washal</label>
+                        <label class="quiz-option"><input type="radio" name="answer3" value="c"> C. Saktah</label>
+                    </div>
+                    <div class="quiz-navigation">
+                        <button class="btn btn-gold" onclick="prevQuestion(3)">Kembali</button>
+                        <button class="btn btn-primary" onclick="submitQuiz()">Selesai & Cek Nilai</button>
+                    </div>
+                </div>
+
+                <div class="quiz-result" id="quiz-result" style="display: none; text-align: center;">
+                    <h4>Hasil Latihan Anda:</h4>
+                    <div style="font-size: var(--font-3xl); font-weight: bold; color: var(--emerald-green); margin: 1rem 0;" id="score-display">0/100</div>
+                    <p id="score-message"></p>
+                    <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="resetQuiz()">Ulangi Latihan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="progress" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Progress Belajar Anda</h2>
+            <p class="section-subtitle">Pantau perkembangan pembelajaran materi Ghorib Anda.</p>
+            
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <div class="progress-wrapper">
+                    <div class="progress-label">
+                        <span>Materi Dibaca</span>
+                        <span id="prog-val-1">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="bar-1" data-target="85"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-label">
+                        <span>Video Disimak</span>
+                        <span id="prog-val-2">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="bar-2" data-target="50"></div>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div class="progress-label">
+                        <span>Nilai Latihan Rata-rata</span>
+                        <span id="prog-val-3">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="bar-3" data-target="90" style="background-color: var(--gold);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Tanya Jawab (FAQ)</h2>
+            <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan.</p>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        Apa itu bacaan Ghorib?
+                        <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Secara bahasa, Ghorib berarti tersembunyi atau asing. Dalam tajwid, bacaan Ghorib adalah bacaan yang cara membacanya tidak sesuai dengan kaidah umum tajwid.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        Apakah wajib mempelajari bacaan Ghorib?
+                        <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Mempelajari tajwid agar dapat membaca Al-Qur'an dengan benar hukumnya Fardhu Ain. Karena bagian dari ayat Al-Qur'an, memahaminya menjadi penting.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        Berapa banyak bacaan Ghorib riwayat Hafsh?
+                        <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Terdapat beberapa jenis utama seperti Imalah (1 tempat), Isymam (1 tempat), Tashil (1 tempat), Naql (1 tempat), dan Saktah (4 tempat wajib).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            <p class="section-subtitle">Ada pertanyaan lebih lanjut? Jangan ragu untuk mengirim pesan.</p>
+            
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <form id="contact-form" onsubmit="kirimWhatsApp(event)">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="wa-nama" required placeholder="Nama Anda">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="wa-email" required placeholder="Email Anda">
+                    </div>
+                    <div class="form-group">
+                        <label>Pesan</label>
+                        <textarea id="wa-pesan" rows="5" required placeholder="Tulis pesan..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim via WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+            <div class="logo" style="color: var(--white); font-size: var(--font-xl);">GHORIB<span>SMART</span></div>
+            <p style="color: #9ca3af; font-size: var(--font-sm);">© 2026 Ghorib Smart. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. SPA ROUTING LOGIC ---
+        function navigateTo(pageId) {
+            // Sembunyikan semua section
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // Tampilkan section yang dituju
+            const targetSection = document.getElementById(pageId);
+            if(targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Scroll ke atas halaman setiap ganti menu
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Atur tombol 'Kembali ke Beranda' di Navbar
+            const btnBack = document.getElementById('btn-back');
+            if(pageId === 'home') {
+                btnBack.style.display = 'none';
+            } else {
+                btnBack.style.display = 'inline-flex';
+            }
+
+            // Trigger animasi khusus jika membuka halaman progress
+            if(pageId === 'progress') {
+                triggerProgressAnimation();
+            }
+        }
+
+        // --- 2. QUIZ LOGIC ---
+        const correctAnswers = { answer1: 'b', answer2: 'a', answer3: 'c' };
+
+        function nextQuestion(current) {
+            document.getElementById(`q${current}`).classList.remove('active');
+            document.getElementById(`q${current + 1}`).classList.add('active');
+        }
+
+        function prevQuestion(current) {
+            document.getElementById(`q${current}`).classList.remove('active');
+            document.getElementById(`q${current - 1}`).classList.add('active');
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const total = Object.keys(correctAnswers).length;
+
+            for (let key in correctAnswers) {
+                const selected = document.querySelector(`input[name="${key}"]:checked`);
+                if (selected && selected.value === correctAnswers[key]) score++;
+            }
+
+            const finalScore = Math.round((score / total) * 100);
+            
+            document.getElementById('q3').classList.remove('active');
+            document.getElementById('quiz-result').style.display = 'block';
+            
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreMessage = document.getElementById('score-message');
+            
+            scoreDisplay.innerText = finalScore + "/100";
+            
+            if (finalScore === 100) {
+                scoreMessage.textContent = "Luar biasa! Pemahaman Anda sangat baik.";
+            } else if (finalScore > 50) {
+                scoreMessage.textContent = "Bagus! Terus tingkatkan pembelajaran Anda.";
+            } else {
+                scoreMessage.textContent = "Jangan menyerah, mari pelajari kembali materinya.";
+            }
+        }
+
+        function resetQuiz() {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            document.getElementById('quiz-result').style.display = 'none';
+            document.getElementById('q1').classList.add('active');
+        }
+
+        // --- 3. ACCORDION LOGIC ---
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = header.nextElementSibling;
+                const isActive = item.classList.contains('active');
+
+                // Tutup semua dulu
+                document.querySelectorAll('.accordion-item').forEach(acc => {
+                    acc.classList.remove('active');
+                    acc.querySelector('.accordion-content').style.maxHeight = null;
+                });
+
+                // Buka yang di klik
+                if (!isActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // --- 4. PROGRESS BAR ANIMATION ---
+        function triggerProgressAnimation() {
+            // Reset width to 0 first for re-animation
+            const bars = document.querySelectorAll('.progress-bar-fill');
+            bars.forEach(bar => bar.style.width = '0%');
+
+            // Timeout kecil agar transisi terlihat dari 0 ke target
+            setTimeout(() => {
+                bars.forEach((bar, index) => {
+                    const target = bar.getAttribute('data-target');
+                    bar.style.width = target + '%';
+                    
+                    const textLabel = document.getElementById(`prog-val-${index+1}`);
+                    let count = 0;
+                    const interval = setInterval(() => {
+                        if (count >= target) {
+                            clearInterval(interval);
+                        } else {
+                            count++;
+                            textLabel.innerText = count + '%';
+                        }
+                    }, 1500 / target);
+                });
+            }, 100);
+        }
+
+        // --- 5. WHATSAPP LOGIC ---
+        function kirimWhatsApp(event) {
+            event.preventDefault(); // Mencegah reload halaman
+            
+            // Ambil nilai dari input form
+            const nama = document.getElementById('wa-nama').value;
+            const email = document.getElementById('wa-email').value;
+            const pesan = document.getElementById('wa-pesan').value;
+            
+            // Nomor WhatsApp tujuan
+            const noWA = "6281331965094"; 
+            
+            // Format pesan yang dikirim
+            const teksWA = `Halo Admin Ghorib Smart,\n\nPerkenalkan saya *${nama}* (${email}).\n\n${pesan}`;
+            
+            // Membuat URL WhatsApp API
+            const urlWA = `https://api.whatsapp.com/send?phone=${noWA}&text=${encodeURIComponent(teksWA)}`;
+            
+            // Membuka tab baru yang mengarah ke WhatsApp
+            window.open(urlWA, '_blank');
+        }
+    </script>
+</body>
+</html>
