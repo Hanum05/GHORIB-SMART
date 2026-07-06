@@ -6,17 +6,17 @@
     <title>GHORIB SMART - Media Pembelajaran Bacaan Ghorib Al-Qur'an</title>
     <style>
         :root {
-            /* Warna Dominan (Diubah ke Tema Biru Tua Langit Malam) */
-            --emerald-green: #1e3a8a; /* Biru langit malam (Primary) */
-            --emerald-dark: #0f172a;  /* Biru sangat gelap (Dark) */
-            --emerald-light: #3b82f6; /* Biru terang (Accent) */
+            /* Warna Dominan (DITUKAR: Biru Tua <-> Putih) */
+            --emerald-green: #ffffff; /* Putih (Sebelumnya Biru Tua) */
+            --emerald-dark: #f8fafc;  /* Putih Terang untuk Judul (Sebelumnya Biru Malam) */
+            --emerald-light: #60a5fa; /* Biru Terang (Tetap untuk aksen) */
             --gold: #d4af37;
             --gold-light: #fbe396;
-            --white: #ffffff;
-            --light-gray: #f3f4f6;
-            --dark-gray: #4b5563;
-            --text-dark: #1f2937;
-            --bg-body: #fafafa;
+            --white: #1e3a8a;         /* Biru Tua untuk Card/Navbar (Sebelumnya Putih) */
+            --light-gray: #1e40af;    /* Biru Tua Terang untuk Border (Sebelumnya Abu Muda) */
+            --dark-gray: #9ca3af;     /* Abu Terang untuk Teks Subtitle (Sebelumnya Abu Tua) */
+            --text-dark: #f1f5f9;     /* Teks Utama Putih/Abu Terang (Sebelumnya Teks Gelap) */
+            --bg-body: #0f172a;       /* Biru Malam untuk Background Utama (Sebelumnya Putih Pudar) */
             
             /* Tipografi Responsive */
             --font-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
@@ -166,10 +166,11 @@
             text-align: center;
             margin-bottom: 3rem;
             padding: 2rem 0;
-            background: linear-gradient(135deg, rgba(243,244,246,0.9) 0%, rgba(255,255,255,0.9) 100%), 
-                        repeating-radial-gradient(circle at 0 0, transparent 0, var(--emerald-light) 40px);
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%), 
+                        repeating-radial-gradient(circle at 0 0, transparent 0, rgba(255, 255, 255, 0.05) 40px);
             border-radius: 16px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
         }
 
         .hero-home h1 {
@@ -288,7 +289,7 @@
         /* Progress */
         .progress-wrapper { max-width: 800px; margin: 0 auto 2rem auto; }
         .progress-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600; }
-        .progress-bar-bg { width: 100%; height: 20px; background-color: #e5e7eb; border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-bar-bg { width: 100%; height: 20px; background-color: var(--light-gray); border-radius: 10px; overflow: hidden; position: relative; }
         .progress-bar-fill { height: 100%; background-color: var(--emerald-green); width: 0%; border-radius: 10px; transition: width 1.5s ease-out; }
         
         /* FAQ Accordion */
@@ -304,11 +305,11 @@
         /* Form Kontak */
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-family: inherit; font-size: var(--font-base); transition: var(--transition-smooth); }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--emerald-green); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2); }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--light-gray); border-radius: 8px; font-family: inherit; font-size: var(--font-base); transition: var(--transition-smooth); background-color: var(--bg-body); color: var(--text-dark); }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--emerald-green); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2); }
 
         /* Footer */
-        footer { background-color: var(--text-dark); color: var(--white); padding: 3rem 1.5rem 1.5rem; text-align: center; margin-top: auto; }
+        footer { background-color: #020617; color: var(--text-dark); padding: 3rem 1.5rem 1.5rem; text-align: center; margin-top: auto; border-top: 1px solid var(--light-gray); }
     </style>
 </head>
 <body>
@@ -436,13 +437,13 @@
             <div class="content-grid">
                 <div class="card">
                     <h3 style="margin-bottom: 1rem; color: var(--emerald-dark);">Praktik Isymam (Surat Yusuf: 11)</h3>
-                    <video controls poster="https://placehold.co/600x350/1e3a8a/ffffff?text=Video+Isymam">
+                    <video controls poster="https://placehold.co/600x350/ffffff/1e3a8a?text=Video+Isymam">
                         <source src="#" type="video/mp4">
                     </video>
                 </div>
                 <div class="card">
                     <h3 style="margin-bottom: 1rem; color: var(--emerald-dark);">Praktik Imalah (Surat Hud: 41)</h3>
-                    <video controls poster="https://placehold.co/600x350/1e3a8a/ffffff?text=Video+Imalah">
+                    <video controls poster="https://placehold.co/600x350/ffffff/1e3a8a?text=Video+Imalah">
                         <source src="#" type="video/mp4">
                     </video>
                 </div>
@@ -612,10 +613,10 @@
             <p class="section-subtitle">Ada pertanyaan lebih lanjut? Jangan ragu untuk mengirim pesan.</p>
             
             <div class="card" style="max-width: 600px; margin: 0 auto;">
-                <form id="contact-form" onsubmit="kirimWhatsApp(event)">
+                <form id="wa-form" onsubmit="sendWhatsApp(event)">
                     <div class="form-group">
                         <label>Nama Lengkap</label>
-                        <input type="text" id="wa-nama" required placeholder="Nama Anda">
+                        <input type="text" id="wa-name" required placeholder="Nama Anda">
                     </div>
                     <div class="form-group">
                         <label>Email</label>
@@ -623,9 +624,9 @@
                     </div>
                     <div class="form-group">
                         <label>Pesan</label>
-                        <textarea id="wa-pesan" rows="5" required placeholder="Tulis pesan..."></textarea>
+                        <textarea id="wa-msg" rows="5" required placeholder="Tulis pesan..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim via WhatsApp</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Pesan ke WhatsApp</button>
                 </form>
             </div>
         </div>
@@ -633,7 +634,7 @@
 
     <footer>
         <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-            <div class="logo" style="color: var(--white); font-size: var(--font-xl);">GHORIB<span>SMART</span></div>
+            <div class="logo" style="color: var(--emerald-green); font-size: var(--font-xl);">GHORIB<span>SMART</span></div>
             <p style="color: #9ca3af; font-size: var(--font-sm);">© 2026 Ghorib Smart. All rights reserved.</p>
         </div>
     </footer>
@@ -764,26 +765,26 @@
             }, 100);
         }
 
-        // --- 5. WHATSAPP LOGIC ---
-        function kirimWhatsApp(event) {
-            event.preventDefault(); // Mencegah reload halaman
+        // --- 5. LOGIKA WHATSAPP ---
+        function sendWhatsApp(e) {
+            e.preventDefault(); // Mencegah reload halaman
             
-            // Ambil nilai dari input form
-            const nama = document.getElementById('wa-nama').value;
+            // Mengambil nilai dari input form
+            const name = document.getElementById('wa-name').value;
             const email = document.getElementById('wa-email').value;
-            const pesan = document.getElementById('wa-pesan').value;
+            const msg = document.getElementById('wa-msg').value;
             
-            // Nomor WhatsApp tujuan
-            const noWA = "6281331965094"; 
+            // Nomor WhatsApp tujuan (gunakan 62 pengganti 0)
+            const phone = "6281331965094"; 
             
-            // Format pesan yang dikirim
-            const teksWA = `Halo Admin Ghorib Smart,\n\nPerkenalkan saya *${nama}* (${email}).\n\n${pesan}`;
+            // Format pesan agar terenkode dengan benar (termasuk spasi dan enter)
+            const text = encodeURIComponent(`Halo Admin Ghorib Smart,\n\nPerkenalkan saya ${name} (${email}).\n\nPesan:\n${msg}`);
             
-            // Membuat URL WhatsApp API
-            const urlWA = `https://api.whatsapp.com/send?phone=${noWA}&text=${encodeURIComponent(teksWA)}`;
+            // Buka API WhatsApp di tab baru
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
             
-            // Membuka tab baru yang mengarah ke WhatsApp
-            window.open(urlWA, '_blank');
+            // Reset form setelah tombol diklik
+            document.getElementById('wa-form').reset();
         }
     </script>
 </body>
